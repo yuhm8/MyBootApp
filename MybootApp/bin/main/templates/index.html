@@ -4,6 +4,21 @@
 	<meta http-equiv="Content-Type"
 		content="text/html; charset=UTF-8">
 	<title>top page</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script th:inline="javascript">
+	${document}.ready(function(){
+		ver num = /*[[${param.id[0]}]]*/
+		$.get("/rest/" + num,null,callback);
+	});
+	function callback(result){
+		$('#obj').append('<li>id: ' + result.id + '</li>');
+		$('#obj').append('<li>id: ' + result.name + '</li>');
+		$('#obj').append('<li>id: ' + result.mail + '</li>');
+		$('#obj').append('<li>id: ' + result.age + '</li>');
+		$('#obj').append('<li>id: ' + result.memo + '</li>');
+	}
+
+	</script>
 	<style>
 	h1{ font-size:18pt; font-weight:bold; color:gray; }
 	body{ font-size:13pt; color:gray; margin:5px 25px; }
@@ -17,7 +32,7 @@
 <body>
 	<h1 th:text="#{content.title}">hello page</h1>
 	<h1 th:text="${msg}"></h1>
-
+	<ol id="obj"></ol>
 	<table>
 			<tr>
 				<th>ID</th><th>namae</th><th>mail</th><th>age</th><th>memo</th>

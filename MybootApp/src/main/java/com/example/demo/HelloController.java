@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +26,13 @@ public class HelloController {
 	@Autowired
 	MyDataRepository repository;
 
-	@PersistenceContext
-	EntityManager entityManager;
-
-	MyDataDaoImpl dao;
+	@Autowired
+	private MyDataService service;
 	/*
 	 * 初期表示用メソッド
 	 */
 	@PostConstruct
 	public void init() {
-		dao = new MyDataDaoImpl(entityManager);
 		for(int i =10; i < 13; i++) {
 			MyData data = new MyData();
 			data.setName("takashi" + i);
@@ -54,7 +49,7 @@ public class HelloController {
 	public ModelAndView index(ModelAndView mav) {
 		mav.setViewName("index");
 		mav.addObject("msg","sample" );
-		Iterable<MyData> list = dao.getAll();
+		Iterable<MyData> list = service.getAll();
 		mav.addObject("datalist",list);
 		return mav;
 	}
@@ -67,7 +62,7 @@ public class HelloController {
 		mav.addObject("title","find" );
 		mav.addObject("msg","input to search" );
 		mav.addObject("value","" );
-		Iterable<MyData> list = dao.getAll();
+		Iterable<MyData> list = service.getAll();
 		mav.addObject("datalist",list);
 		return mav;
 	}
@@ -85,7 +80,7 @@ public class HelloController {
 			mav.addObject("msg","[" + param + "]nokensakukekka" );
 			mav.addObject("value",param );
 			@SuppressWarnings("unused")
-			List <MyData> list = dao.find(param);
+			List <MyData> list = service.find(param);
 		}
 		return mav;
 	}
