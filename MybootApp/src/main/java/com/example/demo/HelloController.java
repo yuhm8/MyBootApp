@@ -48,6 +48,7 @@ public class HelloController {
 	@RequestMapping(value = "/" ,method = RequestMethod.GET)
 	public ModelAndView index(ModelAndView mav) {
 		mav.setViewName("index");
+		mav.addObject("title","findpage" );
 		mav.addObject("msg","sample" );
 		Iterable<MyData> list = service.getAll();
 		mav.addObject("datalist",list);
